@@ -1,0 +1,79 @@
+//이름 : 임정훈
+//학번 : 201911354
+//프로그래밍 이름 : 합병 정렬 알고리즘
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// 두 배열을 합치는 함수
+void merge(int arr[], int left[], int left_size, int right[], int right_size) {
+    int i = 0, j = 0, k = 0;
+
+    // 두 배열의 값을 비교하며 작은 값을 새로운 배열에 저장
+    while (i < left_size && j < right_size) {
+        if (left[i] <= right[j]) {
+            arr[k++] = left[i++];
+        }
+        else {
+            arr[k++] = right[j++];
+        }
+    }
+
+    // 남은 배열의 값을 전부 새로운 배열에 저장
+    while (i < left_size) {
+        arr[k++] = left[i++];
+    }
+
+    while (j < right_size) {
+        arr[k++] = right[j++];
+    }
+}
+
+// 합병 정렬을 수행하는 함수
+void merge_sort(int arr[], int size) {
+    // 배열의 크기가 1이면 그대로 반환
+    if (size < 2) {
+        return;
+    }
+
+    // 배열을 반으로 나누어 재귀적으로 합병 정렬 함수를 호출
+    int mid = size / 2;
+
+    int* left = (int*)malloc(mid * sizeof(int));
+    int* right = (int*)malloc((size - mid) * sizeof(int));
+
+    // 배열을 반으로 나누어 left와 right 배열에 각각 저장
+    for (int i = 0; i < mid; i++) {
+        left[i] = arr[i];
+    }
+
+    for (int i = mid; i < size; i++) {
+        right[i - mid] = arr[i];
+    }
+
+    merge_sort(left, mid); // left 배열을 재귀적으로 정렬
+    merge_sort(right, size - mid); // right 배열을 재귀적으로 정렬
+    merge(arr, left, mid, right, size - mid); // left와 right 배열을 합병
+
+    // 동적으로 할당한 메모리를 해제
+    free(left);
+    free(right);
+}
+
+int main() {
+    int arr[] = { 97, 22, 53, 14, 62, 47, 73, 81, 32 };
+    int size = sizeof(arr) / sizeof(int);
+
+    merge_sort(arr, size); // 합병 정렬 함수 호출
+
+    // 정렬된 배열 출력
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+
+    printf("\n");
+
+    return 0;
+}
