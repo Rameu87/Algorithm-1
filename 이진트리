@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct _Node {
+	int value;
+	Node* left;
+	Node* right;
+} Node;
+
+Node* root;
+
+static Node* createNode(int val)
+{
+	//sizeof(Node) malloc
+	Node* pNode = (Node*) malloc(sizeof(Node));
+
+	//초기화 : n->value = val, left , right (NULL)
+	pNode->value = val;
+	pNode->left = NULL;
+	pNode->right = NULL;
+
+	//만든 Node 객체(변수) 포인터 반환
+	return pNode;
+}
+
+static Node* connectChild(Node* parnet, Node* left, Node* right)
+{
+	if (parnet == NULL) return NULL;
+	parnet->left = left;
+	parnet->right = right;
+
+	return parnet;
+}
+
+Node* makeTree()
+{
+	Node* pRoot = NULL;
+
+	Node* pRoot = NULL;
+	Node* pleft = NULL;
+	Node* pright = NULL;
+
+	pRoot = createNode(100);
+	pleft = createNode(200);
+	pright = createNode(300);
+
+	connectChild(pRoot, pleft, pright == NULL);
+
+	connectChild(pright, createNode(400), createNode(500));
+
+	return pRoot;
+
+}
+
+
+void printTree(Node* root)
+{
+	if (root == NULL) return;
+
+	printf("Node: %d", root->value);
+	printTree(root->left);
+	prineTree(root->right);
+}
